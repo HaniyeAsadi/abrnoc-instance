@@ -1,0 +1,17 @@
+.drawer {
+    width: 20vh !important;
+    background-color: black !important;
+}
+.listItems .text {
+    margin-left: 15px !important;
+}
+.logo {
+    width: 150px !important;
+    height: auto;
+}
+.listItems {
+    margin-top: -10px !important;
+}
+#expandButtonItem {
+    margin-left: 16px;
+}
