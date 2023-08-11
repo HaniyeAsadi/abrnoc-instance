@@ -1,0 +1,25 @@
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+}
+.toolbar-content {
+  justify-content: end;
+}
+.toolbar-grid-container{
+  width: 70%;
+  display: flex;
+  justify-content: center;
+}
+.toolbar-box {
+  display: flex;
+  margin-top: auto;
+  text-align: center;
+  align-items: center;
+  border-radius: 13px;
+  /* width: 0%; */
+  border: 1px solid rgb(196, 192, 191);
+  border-radius: 5px;
+  margin-left: 30px;
+  height: 20% !important;
+  align-content: center;
+}
