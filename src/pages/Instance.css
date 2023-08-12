@@ -12,14 +12,68 @@
 }
 .toolbar-box {
   display: flex;
-  margin-top: auto;
   text-align: center;
   align-items: center;
   border-radius: 13px;
-  /* width: 0%; */
   border: 1px solid rgb(196, 192, 191);
   border-radius: 5px;
+  margin-top: auto;
   margin-left: 30px;
   height: 20% !important;
   align-content: center;
+}
+.container {
+  background-color: rgba(227, 242, 246, 0.7);
+  padding: 0 3vh;
+  margin-top: 5% !important;
+  height: auto;
+}
+.container .inside {
+  background-color: white !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  padding: 0 6vh;
+  margin: 30px 0;
+  border-radius: 10px;
+}
+.title {
+  width: 100%;
+  padding-bottom: 2vh;
+  padding-top: 5vh;
+}
+.region-box {
+  width: 98%;
+  border: 1px solid rgb(196, 192, 191);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 1vh;
+  /* margin: 2vh;  */
+}
+.region-box-grid {
+  justify-content: center;
+  align-items: center;
+}
+.region-box-grid .item {
+  display: flex;
+  margin-right: 10px;
+}
+.selected-region {
+  border: 3px solid #2c5eff;
+}
+.flag {
+  width: 60px;
+  height: 60px;
+}
+.table-container {
+  margin-top: -15px;
+  margin-bottom: 20px;
+}
+.table-icons {
+  margin: -10px !important;
 }
