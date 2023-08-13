@@ -24,15 +24,31 @@ import TextField from '@mui/material/TextField';
 import MenuItem from '@mui/material/MenuItem';
 import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
 import Button from '@mui/material/Button';
+import { makeStyles } from '@mui/styles';
 
+const useStyles = makeStyles({
+  root: {
+    position: "sticky",
+    top: "1rem",
+    minWidth: "275"
+  },
+
+  title: {
+    fontSize: 14
+  },
+  pos: {
+    marginBottom: 12
+  }
+});
 const drawerWidth = 220;
 
 const Instances = () => {
+  const classes = useStyles();
   const [userData, setUserData] = React.useState([]);
   const [regions, setRegions] = React.useState([]);
   const [selectedRegion, setSelectedRegion] = React.useState("Germany");
   const [planData, setPlanData] = React.useState([]);
-  const [selectedPlan, setSelectedPlan] = React.useState([]);
+  const [selectedPlan, setSelectedPlan] = React.useState({});
   const [operatingSystems, setOperatingSystems] = React.useState([]);
   const [selectedOS, setSelectedOS] = React.useState([]);
   const [selectedOSVersion, setSelectedOSVersion] = React.useState([]);
@@ -42,7 +58,6 @@ const Instances = () => {
 
   const handleChangeRegion = (region) => {
     setSelectedRegion(region);
-    // console.log(region);
   };
 
   const handleChangePlan = (plan) => {
@@ -74,16 +89,6 @@ const Instances = () => {
     }
   };
   
-  // React.useEffect(() => {
-  //   axios.get('https://assignment.abrnoc.com/user-info')
-  //   .then((response) => {
-  //     setUserData(response.data);
-  //   })
-  //   .catch((error) => 
-  //     console.log(error)
-  //   );
-  // }, []);
-
   React.useEffect(() => {
     axios.get('https://assignment.abrnoc.com/user-info')
     .then((response) => {
@@ -126,7 +131,7 @@ const Instances = () => {
       setSelectedOSVersion(groupedByFamily[0].versions[0]);
       setOperatingSystems(groupedByFamily);
       
-      console.log(groupedByFamily);
+      // console.log(groupedByFamily);
     })
     .catch(error => console.log(error));
 
@@ -136,33 +141,9 @@ const Instances = () => {
       setSelectedPlan(response.data[0]);
       setCost(parseFloat(response.data[0].monthly_price) * quantity);
       console.log(parseFloat(response.data[0].monthly_price) * quantity);
-      // console.log(response.data[0]);
-      // console.log(response.data);
     })
     .catch(error => console.log(error));
   }, []);
-
-  // React.useEffect(() => {
-  //   axios.get(`https://assignment.abrnoc.com/operating_systems`)
-  //   .then((response) => {
-  //     // setOperatingSystems(response.data);
-  //     // console.log(response.data);
-  //     const groupedByFamily = Object.values(
-  //       response.data.reduce((acc, os) => {
-  //         const { family, version } = os;
-  //         if (!acc[family]) {
-  //           acc[family] = { family, versions: [] };
-  //         }
-  //         acc[family].versions.push(version);
-  //         return acc;
-  //       }, {})
-  //     );
-  //     setOperatingSystems(groupedByFamily);
-      
-  //     console.log(groupedByFamily);
-  //   })
-  //   .catch(error => console.log(error));
-  // }, []);
 
   React.useEffect(() => {
     let region = selectedRegion;
@@ -179,17 +160,17 @@ const Instances = () => {
 
   React.useEffect(() => {
     setSelectedPlan(planData[0]);
-    console.log(planData[0]);
-    
+    console.log(planData);
   }, [planData]);
   
   React.useEffect(() => {
-    console.log(selectedPlan);
-    // setCost(parseFloat(selectedPlan.monthly_price) * quantity);
+    if(selectedPlan && Object.keys(selectedPlan).length !== 0){
+
+      console.log(selectedPlan);
+      console.log(selectedPlan.monthly_price);
+      setCost((parseFloat(selectedPlan.monthly_price) * quantity).toFixed(2));
+    }
   }, [quantity, selectedPlan]);
-  React.useEffect(() => {
-    console.log(planData[0]);
-  }, [planData])
 
   return ( 
     <div style={{display: 'flex'}}>
@@ -324,49 +305,6 @@ const Instances = () => {
                 <Typography variant='h6' fontWeight="500" className='title'>
                   Operating System
                 </Typography> 
-                {/* <Grid item container spacing={3}>
-                  {operatingSystems.length > 0 && operatingSystems.map((os) => (
-                    <Grid item lg={4} md={6} sm={6}> 
-                      <Box 
-                        className={selectedOS === os ? "item-box selected-item" : "item-box"} 
-                        // onClick={() => handleChangeRegion(os.family)}
-                      >
-                        <Grid container spacing={2} className='item-box-grid'>
-                          <Grid item lg={3} md={3} sm={2} className='item'>
-                            <img className='os-image'
-                              src={`/${os.family}.png`}
-                            />                          
-                          </Grid>
-                          <Grid item lg={8} md={8} sm={10}>
-                            <p style={{fontWeight: '600'}}>{os.family}</p>
-                          </Grid>
-                        </Grid>
-                        <TextField
-                            select
-                            // label="Gender"
-                            // color="secondary"
-                            variant="outlined"
-                            // value={gender}
-                            defaultValue={"select"}
-                            // InputLabelProps={{ shrink: true }}
-                            // style= {{textAlign: 'left', width:'100%'}}
-                            style={{width: '90%', margin: '20px auto 15px'}}
-                            // onChange={handleGender}
-                        >
-                            <MenuItem value="select" disabled style={{ color: 'gray'}}>
-                                <em>Select version</em>
-                            </MenuItem>
-                            <MenuItem value="male">
-                                Male
-                            </MenuItem>
-                            <MenuItem value="female">
-                                Female
-                            </MenuItem>
-                        </TextField>
-                      </Box>
-                    </Grid>
-                  ))}
-                </Grid> */}
                 <Grid item container spacing={3}>
                   {operatingSystems.length > 0 && operatingSystems.map((os) => (
                     <Grid item lg={4} md={6} sm={6}> 
@@ -419,7 +357,7 @@ const Instances = () => {
 
               </div>
             </Grid>
-            <Grid item md={4}>
+            <Grid item md={4} className={classes.root} elevation={100}>
               <div className="inside">
                 <Typography className='title'>
                   Instance quantity:
