@@ -20,6 +20,10 @@ import RadioButtonUncheckedIcon from '@mui/icons-material/RadioButtonUnchecked';
 import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import TextField from '@mui/material/TextField';
+import MenuItem from '@mui/material/MenuItem';
+import RemoveOutlinedIcon from '@mui/icons-material/RemoveOutlined';
+import Button from '@mui/material/Button';
 
 const drawerWidth = 220;
 
@@ -28,47 +32,58 @@ const Instances = () => {
   const [regions, setRegions] = React.useState([]);
   const [selectedRegion, setSelectedRegion] = React.useState("Germany");
   const [planData, setPlanData] = React.useState([]);
-  const [regionsCode, setRegionsCode] = React.useState([]);
-  const countryInfo = countryList.getCode("United states of america");
+  const [selectedPlan, setSelectedPlan] = React.useState([]);
+  const [operatingSystems, setOperatingSystems] = React.useState([]);
+  const [selectedOS, setSelectedOS] = React.useState([]);
+  const [selectedOSVersion, setSelectedOSVersion] = React.useState([]);
+  const [hostsNames, setHostsNames] = React.useState([]);
+  const [quantity, setQuantity] = React.useState(1);
+  const [cost, setCost] = React.useState("");
 
   const handleChangeRegion = (region) => {
     setSelectedRegion(region);
-    console.log(region);
-  }
-  React.useEffect(() => {
-    axios.get('https://assignment.abrnoc.com/regions')
-    .then((response) => {
-      console.log(response.data);
-      const pairs = response.data.map(region => ({
-        name: region.name === "US" ? "United States" : region.name,
-        code: region.name === "US" ? countryList.getCode("United states of america") : countryList.getCode(region.name)
-      }));
-      console.log(pairs);
-      pairs.sort((a, b) => a.code.localeCompare(b.code));
-      setRegions(pairs);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-    axios.get(`https://assignment.abrnoc.com/plans?region=${selectedRegion}`)
-    .then((response) => {
-      setPlanData(response.data);
-      console.log(response.data);
-    })
-    .catch(error => console.log(error));
-  }, []);
-  React.useEffect(() => {
-    let region = selectedRegion;
-    if(region === "United States"){
-      region = "US"
+    // console.log(region);
+  };
+
+  const handleChangePlan = (plan) => {
+    setSelectedPlan(plan);
+    console.log(plan);
+  };
+
+  const handleChangeSelectedOS = (os) => {
+    setSelectedOS(os);
+  };
+
+  const handleOSVersion = (os, version) => {
+    setSelectedOS(os);
+    setSelectedOSVersion(version);
+    console.log(version);
+  };
+
+  const handleSubtract = () => {
+    const num = parseInt(quantity);
+    if(num !== 1) {
+      setQuantity(num - 1);
     }
-    axios.get(`https://assignment.abrnoc.com/plans?region=${region}`)
-    .then((response) => {
-      setPlanData(response.data);
-      console.log(response.data);
-    })
-    .catch(error => console.log(error));
-  }, [selectedRegion]);
+  };
+
+  const handleAdd = () => {
+    const num = parseInt(quantity);
+    if(num !== 10){
+      setQuantity(num + 1);
+    }
+  };
+  
+  // React.useEffect(() => {
+  //   axios.get('https://assignment.abrnoc.com/user-info')
+  //   .then((response) => {
+  //     setUserData(response.data);
+  //   })
+  //   .catch((error) => 
+  //     console.log(error)
+  //   );
+  // }, []);
+
   React.useEffect(() => {
     axios.get('https://assignment.abrnoc.com/user-info')
     .then((response) => {
@@ -77,7 +92,105 @@ const Instances = () => {
     .catch((error) => 
       console.log(error)
     );
+
+    axios.get('https://assignment.abrnoc.com/regions')
+    .then((response) => {
+      // console.log(response.data);
+      const pairs = response.data.map(region => ({
+        name: region.name === "US" ? "United States" : region.name,
+        code: region.name === "US" ? countryList.getCode("United states of america") : countryList.getCode(region.name)
+      }));
+      // console.log(pairs);
+      // pairs.sort((a, b) => a.code.localeCompare(b.code));
+      setRegions(pairs);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+
+    axios.get(`https://assignment.abrnoc.com/operating_systems`)
+    .then((response) => {
+      // setOperatingSystems(response.data);
+      // console.log(response.data);
+      const groupedByFamily = Object.values(
+        response.data.reduce((acc, os) => {
+          const { family, version } = os;
+          if (!acc[family]) {
+            acc[family] = { family, versions: [] };
+          }
+          acc[family].versions.push(version);
+          return acc;
+        }, {})
+      );
+      setSelectedOS(groupedByFamily[0]);
+      setSelectedOSVersion(groupedByFamily[0].versions[0]);
+      setOperatingSystems(groupedByFamily);
+      
+      console.log(groupedByFamily);
+    })
+    .catch(error => console.log(error));
+
+    axios.get(`https://assignment.abrnoc.com/plans?region=${selectedRegion}`)
+    .then((response) => {
+      setPlanData(response.data);
+      setSelectedPlan(response.data[0]);
+      setCost(parseFloat(response.data[0].monthly_price) * quantity);
+      console.log(parseFloat(response.data[0].monthly_price) * quantity);
+      // console.log(response.data[0]);
+      // console.log(response.data);
+    })
+    .catch(error => console.log(error));
   }, []);
+
+  // React.useEffect(() => {
+  //   axios.get(`https://assignment.abrnoc.com/operating_systems`)
+  //   .then((response) => {
+  //     // setOperatingSystems(response.data);
+  //     // console.log(response.data);
+  //     const groupedByFamily = Object.values(
+  //       response.data.reduce((acc, os) => {
+  //         const { family, version } = os;
+  //         if (!acc[family]) {
+  //           acc[family] = { family, versions: [] };
+  //         }
+  //         acc[family].versions.push(version);
+  //         return acc;
+  //       }, {})
+  //     );
+  //     setOperatingSystems(groupedByFamily);
+      
+  //     console.log(groupedByFamily);
+  //   })
+  //   .catch(error => console.log(error));
+  // }, []);
+
+  React.useEffect(() => {
+    let region = selectedRegion;
+    if(region === "United States"){
+      region = "US";
+    }
+    axios.get(`https://assignment.abrnoc.com/plans?region=${region}`)
+    .then((response) => {
+      setPlanData(response.data);
+      console.log(response.data);
+    })
+    .catch(error => console.log(error));
+  }, [selectedRegion]);
+
+  React.useEffect(() => {
+    setSelectedPlan(planData[0]);
+    console.log(planData[0]);
+    
+  }, [planData]);
+  
+  React.useEffect(() => {
+    console.log(selectedPlan);
+    // setCost(parseFloat(selectedPlan.monthly_price) * quantity);
+  }, [quantity, selectedPlan]);
+  React.useEffect(() => {
+    console.log(planData[0]);
+  }, [planData])
+
   return ( 
     <div style={{display: 'flex'}}>
       <Sidebar />
@@ -139,7 +252,8 @@ const Instances = () => {
         </AppBar>
         <div className="container">
           <Grid container spacing={2} >
-            <Grid item md={8}>
+            <Grid item md={8}  
+            >
               <div className="inside">
                 <Typography variant='h6' fontWeight="500" className='title'>
                   Region
@@ -148,10 +262,10 @@ const Instances = () => {
                   {regions.length > 0 && regions.map((region) => (
                     <Grid item lg={4} md={6} sm={6}> 
                       <Box 
-                        className={selectedRegion === region.name ? "region-box selected-region"  : "region-box"} 
+                        className={selectedRegion === region.name ? "item-box selected-item"  : "item-box"} 
                         onClick={() => handleChangeRegion(region.name)}
                       >
-                        <Grid container spacing={2} className='region-box-grid'>
+                        <Grid container spacing={2} className='item-box-grid'>
                           <Grid item lg={2} md={3} sm={2} className='item'>
                             <Avatar className='flag'
                               src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/${region.code.toLowerCase()}.svg`}
@@ -162,12 +276,7 @@ const Instances = () => {
                           </Grid>
                         </Grid>
                       </Box>
-                    
-                    {/* <p>{region.name}</p> */}
                     </Grid>
-                    // <p>
-
-                    // </p>
                   ))}
                 </Grid>
                 <Typography variant='h6' fontWeight="500" className='title'>
@@ -180,24 +289,25 @@ const Instances = () => {
                         <TableCell style={{ width:"2px"}}></TableCell>
                         <TableCell>CPU</TableCell>
                         <TableCell>Memory</TableCell>
-                        <TableCell>Storage</TableCell>
+                        {/* <TableCell>Storage</TableCell> */}
                         <TableCell>Connection speed</TableCell>
                         <TableCell>Monthly price</TableCell>
                       </TableRow>
                     </TableHead>
                     <TableBody>
                       {planData.map((plan) =>
-                        <TableRow>
+                        <TableRow onClick={() => handleChangePlan(plan)}>
                           <TableCell style={{ width:"2px"}}>
                             <Checkbox
                               className='table-icons'
                               icon={<RadioButtonUncheckedIcon />}
-                              checkedIcon={<RadioButtonCheckedIcon />}
+                              checked={plan.id === selectedPlan.id}
+                              checkedIcon={plan.id === selectedPlan.id ? <RadioButtonCheckedIcon /> : <RadioButtonUncheckedIcon />}
                             />
                           </TableCell>
                           <TableCell>{plan.cpu_cores + " CPU"}</TableCell>
                           <TableCell>{plan.memory_size_in_GB + " GB"}</TableCell>
-                          <TableCell>Storage</TableCell>
+                          {/* <TableCell>Storage</TableCell> */}
                           <TableCell>{"Up to " + plan.connection_up_bound_speed + " Gbps"}</TableCell>
                           <TableCell style={{display:'flex', justifyContent: 'space-between', alignItems: 'center'}}>
                             {"$ " + plan.monthly_price}
@@ -211,6 +321,102 @@ const Instances = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
+                <Typography variant='h6' fontWeight="500" className='title'>
+                  Operating System
+                </Typography> 
+                {/* <Grid item container spacing={3}>
+                  {operatingSystems.length > 0 && operatingSystems.map((os) => (
+                    <Grid item lg={4} md={6} sm={6}> 
+                      <Box 
+                        className={selectedOS === os ? "item-box selected-item" : "item-box"} 
+                        // onClick={() => handleChangeRegion(os.family)}
+                      >
+                        <Grid container spacing={2} className='item-box-grid'>
+                          <Grid item lg={3} md={3} sm={2} className='item'>
+                            <img className='os-image'
+                              src={`/${os.family}.png`}
+                            />                          
+                          </Grid>
+                          <Grid item lg={8} md={8} sm={10}>
+                            <p style={{fontWeight: '600'}}>{os.family}</p>
+                          </Grid>
+                        </Grid>
+                        <TextField
+                            select
+                            // label="Gender"
+                            // color="secondary"
+                            variant="outlined"
+                            // value={gender}
+                            defaultValue={"select"}
+                            // InputLabelProps={{ shrink: true }}
+                            // style= {{textAlign: 'left', width:'100%'}}
+                            style={{width: '90%', margin: '20px auto 15px'}}
+                            // onChange={handleGender}
+                        >
+                            <MenuItem value="select" disabled style={{ color: 'gray'}}>
+                                <em>Select version</em>
+                            </MenuItem>
+                            <MenuItem value="male">
+                                Male
+                            </MenuItem>
+                            <MenuItem value="female">
+                                Female
+                            </MenuItem>
+                        </TextField>
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid> */}
+                <Grid item container spacing={3}>
+                  {operatingSystems.length > 0 && operatingSystems.map((os) => (
+                    <Grid item lg={4} md={6} sm={6}> 
+                      <Box 
+                        className={selectedOS === os ? "item-box selected-item" : "item-box"} 
+                        onClick={() => handleChangeSelectedOS(os)}
+                      >
+                        <Grid container spacing={2} className='item-box-grid'>
+                          <Grid item lg={3} md={3} sm={2} className='item'>
+                            <img className='os-image'
+                              src={`/${os.family}.png`}
+                            />                          
+                          </Grid>
+                          <Grid item lg={8} md={8} sm={10}>
+                            <p style={{fontWeight: '600'}}>{os.family}</p>
+                          </Grid>
+                        </Grid>
+                        <TextField
+                            select
+                            variant="outlined"
+                            value={selectedOS === os ? selectedOSVersion : "select"}
+                            style={{width: '90%', margin: '20px auto 15px'}}
+                            onChange={(event) => handleOSVersion(os, event.target.value)}
+                        >
+                            <MenuItem value="select" disabled style={{ color: 'gray'}}>
+                                <em>Select version</em>
+                            </MenuItem>
+                            {os.versions.map((version) => (
+                              <MenuItem key={version} value={version}>
+                                {version}
+                              </MenuItem>
+                            ))}
+                        </TextField>
+                      </Box>
+                    </Grid>
+                  ))}
+                </Grid>
+                <Typography variant='h6' fontWeight="500" className='title'>
+                  Hostname
+                </Typography> 
+                <Grid item container spacing={2}>
+                  {operatingSystems.length > 0 && operatingSystems.map((os) => (
+                    <Grid item lg={6} md={6} sm={6}> 
+                      <TextField style={{width: '100%'}}
+                        value="dskmfkljsl"
+                      />
+                    </Grid>
+                  ))}
+                </Grid>
+
               </div>
             </Grid>
             <Grid item md={4}>
@@ -218,26 +424,53 @@ const Instances = () => {
                 <Typography className='title'>
                   Instance quantity:
                 </Typography>
-                <Checkbox
-                  icon={<RadioButtonUncheckedIcon />}
-                  checkedIcon={<RadioButtonCheckedIcon />}
-                />
+                <Box className="item-box">
+                  <Grid container spacing={3}>
+                    <Grid item lg={1} md={1} sm={1}>
+                      <IconButton onClick={handleSubtract}>
+                        <RemoveOutlinedIcon />
+                      </IconButton>
+                    </Grid>
+                    {/* <Divider 
+                      orientation="vertical" 
+                      sx={{
+                        height: 30
+                      }} 
+                    /> */}
+                    <Grid item lg={9} md={1} sm={1} style={{display: 'flex', justifyContent: 'center', alignItems: 'center', alignContent: 'center'}}>
+                      {quantity}
+                    </Grid>
+                    <Grid item lg={1} md={1} sm={1}>
+                      <IconButton onClick={handleAdd}>
+                        <AddOutlinedIcon />
+                      </IconButton>
+                    </Grid>
+                  </Grid>
+                </Box>
+                <div className='deploy-option'>
+                  <Checkbox />
+                  <Typography>
+                    Enable IPv4
+                  </Typography>
+                </div>
+                <Divider style={{width: '100%'}} />
+                <div className="cost">
+                  <Typography variant='h6' fontWeight="600">
+                    Total
+                  </Typography>
+                  <Typography variant='h5' fontWeight="600">
+                    $ {cost}
+                    <span style={{color: "#aab3af", fontWeight:'400', fontSize: "20px"}}>
+                      &nbsp;/month
+                    </span>
+                  </Typography>
+                </div>
+                <Button variant='contained' className='deploy-button'>
+                    Deploy now
+                </Button>
               </div>
-              {/* <p>jhkds</p> */}
             </Grid>
-          </Grid>
-          
-          {/* <img
-            style={{width: '20px', height: '20px', marginTop: '70px'}}
-            src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/${countryInfo.toLowerCase()}.svg`}
-            // alt={selectedCountryCode}
-          />
-          <img
-            style={{width: '20px', height: '20px', marginTop: '70px'}}
-            src={`https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/flags/4x3/${countryInfo.toLowerCase()}.svg`}
-            // alt={selectedCountryCode}
-          /> */}
-          
+          </Grid>          
         </div>
       </div>
     </div>
