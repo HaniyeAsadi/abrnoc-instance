@@ -1,9 +1,9 @@
-.toolbar {
-  display: flex;
-  justify-content: space-between;
-}
 .toolbar-content {
   justify-content: end;
+}
+.toolbar-icon {
+  color: black !important;
+  font-size: 30px !important;
 }
 .toolbar-grid-container{
   width: 70%;
@@ -22,6 +22,9 @@
   height: 20% !important;
   align-content: center;
 }
+.balance {
+  font-weight: 600 !important;
+}
 .container {
   background-color: rgba(227, 242, 246, 0.7);
   padding: 0 3vh;
@@ -35,17 +38,15 @@
   flex-direction: column;
   justify-content: left;
   align-items: center;
-  padding: 0 6vh;
+  padding: 0 6vh 6vh;
   margin: 30px 0;
   border-radius: 10px;
 }
-/* .fixed {
-  position: sticky !important;
-} */
 .title {
   width: 100%;
   padding-bottom: 2vh;
   padding-top: 5vh;
+  font-weight: 500;
 }
 .item-box {
   width: 98%;
@@ -57,7 +58,6 @@
   align-items: center;
   align-content: center;
   padding: 1vh;
-  /* margin: 2vh;  */
 }
 .item-box-grid {
   justify-content: center;
@@ -70,6 +70,10 @@
 .selected-item {
   border: 3px solid #2c5eff;
 }
+.select-field {
+  width: 90% !important;
+  margin: 20px auto 15px !important;
+}
 .flag {
   width: 60px;
   height: 60px;
@@ -81,6 +85,11 @@
 .table-container {
   margin-top: -15px;
   margin-bottom: 20px;
+}
+.table-cell {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center;
 }
 .table-icons {
   margin: -10px !important;
@@ -96,7 +105,6 @@
 .deploy-button {
   width: 100% !important;
   background-color: #00cd82 !important;
-  margin-bottom: 20px !important;
 }
 .cost {
   width: 100% !important;
@@ -105,4 +113,19 @@
   justify-content: space-between;
   align-items: center;
   margin: 20px auto;
+}
+.cost #scale {
+  color: #aab3af;
+  font-weight: 400;
+  font-size: 20px;
+}
+.quantity-box {
+  height: 135% !important;
+  margin-top: -7px !important;
+}
+#quantity-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* align-content: center; */
 }

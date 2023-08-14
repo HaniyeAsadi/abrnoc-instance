@@ -7,7 +7,7 @@ function App() {
     <Router>
       <Routes>
         <Route exact path="/sidebar" element={<Sidebar />} />
-        <Route exact path="/instances" element={<Instances />} />
+        <Route exact path="/" element={<Instances />} />
       </Routes>
     </Router>
   );
