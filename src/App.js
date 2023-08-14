@@ -5,7 +5,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/sidebar" element={<Sidebar />} />
       </Routes>
     </Router>
   );
