@@ -1,11 +1,9 @@
 import * as React from 'react';
 import Drawer from '@mui/material/Drawer';
-// import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import DashboardOutlinedIcon from '@mui/icons-material/DashboardOutlined';
 import AddBoxOutlinedIcon from '@mui/icons-material/AddBoxOutlined';
@@ -22,7 +20,6 @@ import HeadsetOutlinedIcon from '@mui/icons-material/HeadsetOutlined';
 import HelpOutlineOutlinedIcon from '@mui/icons-material/HelpOutlineOutlined';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-// import Typography from '@mui/material/Typography';
 import { Link, useLocation } from 'react-router-dom';
 import './Sidebar.css';
 import '../App.css';
@@ -37,17 +34,6 @@ const Sidebar = () =>{
   }
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* <CssBaseline /> */}
-      {/* <AppBar
-        position="fixed"
-        sx={{ width: `calc(100% - ${drawerWidth}px)`, ml: `${drawerWidth}px` }}
-      >
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Permanent drawer
-          </Typography>
-        </Toolbar>
-      </AppBar> */}
       <Drawer
         sx={{
           width: drawerWidth,
@@ -81,9 +67,9 @@ const Sidebar = () =>{
               </Grid>
             </Box>
           </Link>
-          <Link to="/instances" className='navigate'>
+          <Link to="/" className='navigate'>
             <Box 
-              className={location.pathname === "/instances" ? "sidebar-item clicked-item" : "sidebar-item"}
+              className={location.pathname === "/" ? "sidebar-item clicked-item" : "sidebar-item"}
             >
               <Grid container spacing={2} className='grid-container '>
                 <Grid item md={2} sm={2} xs={2}>
@@ -182,24 +168,28 @@ const Sidebar = () =>{
         </List>
         <div className="sidebar-boxes">
           <Box className="box">
-            <Grid container spacing={2} className='grid-container'>
-              <Grid item md={2} sm={2} xs={2}>
-                <HeadsetOutlinedIcon />
+            <Link to="/support" className='navigate'>
+              <Grid container spacing={2} className='grid-container'>
+                <Grid item md={2} sm={2} xs={2}>
+                  <HeadsetOutlinedIcon />
+                </Grid>
+                <Grid item md={7} sm={8} xs={8}>
+                  Support
+                </Grid>
               </Grid>
-              <Grid item md={7} sm={8} xs={8}>
-                Support
-              </Grid>
-            </Grid>
+            </Link>
           </Box>
           <Box className="box">
-            <Grid container spacing={2} className='grid-container'>
-              <Grid item md={2} sm={2} xs={2}>
-                <HelpOutlineOutlinedIcon />
+            <Link to="/help" className='navigate'>
+              <Grid container spacing={2} className='grid-container'>
+                <Grid item md={2} sm={2} xs={2}>
+                  <HelpOutlineOutlinedIcon />
+                </Grid>
+                <Grid item md={7} sm={8} xs={8}>
+                  Help
+                </Grid>
               </Grid>
-              <Grid item md={7} sm={8} xs={8}>
-                Help
-              </Grid>
-            </Grid>
+            </Link>
           </Box>
         </div>
       </Drawer>
