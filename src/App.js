@@ -6,7 +6,6 @@ function App() {
   return (
     <Router>
       <Routes>
-        <Route exact path="/sidebar" element={<Sidebar />} />
         <Route exact path="/" element={<Instances />} />
       </Routes>
     </Router>
