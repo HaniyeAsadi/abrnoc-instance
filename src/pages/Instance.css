@@ -1,0 +1,131 @@
+.toolbar-content {
+  justify-content: end;
+}
+.toolbar-icon {
+  color: black !important;
+  font-size: 30px !important;
+}
+.toolbar-grid-container{
+  width: 70%;
+  display: flex;
+  justify-content: center;
+}
+.toolbar-box {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  border-radius: 13px;
+  border: 1px solid rgb(196, 192, 191);
+  border-radius: 5px;
+  margin-top: auto;
+  margin-left: 30px;
+  height: 20% !important;
+  align-content: center;
+}
+.balance {
+  font-weight: 600 !important;
+}
+.container {
+  background-color: rgba(227, 242, 246, 0.7);
+  padding: 0 3vh;
+  margin-top: 5% !important;
+  height: auto;
+  display: flex;
+}
+.container .inside {
+  background-color: white !important;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  align-items: center;
+  padding: 0 6vh 6vh;
+  margin: 30px 0;
+  border-radius: 10px;
+}
+.title {
+  width: 100%;
+  padding-bottom: 2vh;
+  padding-top: 5vh;
+  font-weight: 500;
+}
+.item-box {
+  width: 98%;
+  border: 1px solid rgb(196, 192, 191);
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  padding: 1vh;
+}
+.item-box-grid {
+  justify-content: center;
+  align-items: center;
+}
+.item-box-grid .item {
+  display: flex;
+  margin-right: 10px;
+}
+.selected-item {
+  border: 3px solid #2c5eff;
+}
+.select-field {
+  width: 90% !important;
+  margin: 20px auto 15px !important;
+}
+.flag {
+  width: 60px;
+  height: 60px;
+}
+.os-image {
+  width: 60px !important;
+  height: 60px !important;
+}
+.table-container {
+  margin-top: -15px;
+  margin-bottom: 20px;
+}
+.table-cell {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center;
+}
+.table-icons {
+  margin: -10px !important;
+}
+.deploy-option {
+  width: 100% !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+  margin: 15px auto;
+}
+.deploy-button {
+  width: 100% !important;
+  background-color: #00cd82 !important;
+}
+.cost {
+  width: 100% !important;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px auto;
+}
+.cost #scale {
+  color: #aab3af;
+  font-weight: 400;
+  font-size: 20px;
+}
+.quantity-box {
+  height: 135% !important;
+  margin-top: -7px !important;
+}
+#quantity-number {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* align-content: center; */
+}
